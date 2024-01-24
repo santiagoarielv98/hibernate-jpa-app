@@ -7,19 +7,20 @@ import jakarta.persistence.Query;
 
 import java.util.Scanner;
 
-public class HibernatePorId {
+public class HibernateSingleResultWhere {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
         EntityManager entityManager = JpaUtil.getEntityManager();
-        Query query = entityManager.createQuery("SELECT c from Cliente c WHERE c.id = ?1", Cliente.class);
+        Query query = entityManager.createQuery("SELECT c from Cliente c WHERE c.formaPago = ?1", Cliente.class);
 
-        System.out.println("Ingrese ID: ");
-        Long id = scanner.nextLong();
+        System.out.println("Ingrese forma de pago: ");
+        String pago = scanner.next();
 
-        query.setParameter(1, id);
+        query.setParameter(1, pago);
 
         Cliente c = (Cliente) query.getSingleResult();
+
         System.out.println(c);
 
         entityManager.close();

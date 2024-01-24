@@ -17,6 +17,9 @@ public class HibernatePorId2 {
 
         System.out.println(c);
 
+        Cliente c2 = entityManager.find(Cliente.class, id); // guarda en cache
+        System.out.println(c2);
+
         entityManager.close();
     }
 }
