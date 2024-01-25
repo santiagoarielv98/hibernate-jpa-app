@@ -3,10 +3,7 @@ package com.svillanueva.app;
 import com.svillanueva.app.entity.Cliente;
 import com.svillanueva.app.utility.JpaUtil;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.ParameterExpression;
-import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -106,7 +103,20 @@ public class HibernateCriteria {
                 .getResultList();
         clientes.forEach(System.out::println);
 
+        System.out.println("========= consulta con los predicados conjuncion and y disyunción or =========");
 
+        query = criteriaBuilder.createQuery(Cliente.class);
+        from = query.from(Cliente.class);
+
+        Predicate porNombre = criteriaBuilder.equal(from.get("nombre"), "Santiago");
+        Predicate porFormaPago = criteriaBuilder.equal(from.get("formaPago"), "debito");
+
+        query.select(from)
+                .where(criteriaBuilder.and(porNombre, porFormaPago));
+
+        clientes = entityManager.createQuery(query)
+                .getResultList();
+        clientes.forEach(System.out::println);
 
         entityManager.close();
     }
