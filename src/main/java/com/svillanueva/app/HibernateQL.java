@@ -49,6 +49,24 @@ public class HibernateQL {
 
         });
 
+        System.out.println("========== consulta por cliente y forma de pago ==========");
+        List<Object[]> registros = entityManager.createQuery("SELECT c, c.formaPago FROM Cliente c", Object[].class)
+                .getResultList();
+
+        registros.forEach((reg) -> {
+            Cliente c = (Cliente) reg[0];
+            String formaPago = (String) reg[1];
+
+            System.out.println("formatoPago=" + formaPago + ", cliente=" + c);
+        });
+
+        System.out.println("========== consulta que puebla y devuelve objecto de una clase personalizada ==========");
+
+        clientes = entityManager.createQuery("SELECT new Cliente(c.nombre, c.apellido) from Cliente c", Cliente.class)
+                .getResultList();
+
+        clientes.forEach(System.out::println);
+
         entityManager.close();
     }
 }

@@ -4,7 +4,7 @@ package com.svillanueva.app.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "clientes  ")
+@Table(name = "clientes")
 public class Cliente {
 
     @Id
@@ -17,6 +17,11 @@ public class Cliente {
     private String formaPago;
 
     public Cliente() {
+    }
+
+    public Cliente(String nombre, String apellido) {
+        this.nombre = nombre;
+        this.apellido = apellido;
     }
 
     public Cliente(Long id, String nombre, String apellido, String formaPago) {
