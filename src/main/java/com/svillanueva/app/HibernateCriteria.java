@@ -8,6 +8,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.ParameterExpression;
 import jakarta.persistence.criteria.Root;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class HibernateCriteria {
@@ -63,6 +64,48 @@ public class HibernateCriteria {
         clientes = entityManager.createQuery(query)
                 .getResultList();
         clientes.forEach(System.out::println);
+
+        System.out.println("========= ejemplo usando where in =========");
+        query = criteriaBuilder.createQuery(Cliente.class);
+        from = query.from(Cliente.class);
+
+        ParameterExpression<List> listParams = criteriaBuilder.parameter(List.class, "nombres");
+
+        query.select(from)
+                .where(from.get("nombre")
+                        .in(
+                                // "Santiago", "John", "Lou"
+                                listParams
+                        ));
+
+
+        clientes = entityManager.createQuery(query)
+                .setParameter("nombres", Arrays.asList("Santiago", "John", "Lou"))
+                .getResultList();
+        clientes.forEach(System.out::println);
+
+        System.out.println("========= filtrar usando predicados mayor que o mayor igual que =========");
+        query = criteriaBuilder.createQuery(Cliente.class);
+        from = query.from(Cliente.class);
+
+        query.select(from)
+                .where(criteriaBuilder.ge(from.get("id"), 3L));
+
+        clientes = entityManager.createQuery(query)
+                .getResultList();
+        clientes.forEach(System.out::println);
+
+        System.out.println("========= filtrar 2 usando predicados mayor que o mayor igual que =========");
+        query = criteriaBuilder.createQuery(Cliente.class);
+        from = query.from(Cliente.class);
+
+        query.select(from)
+                .where(criteriaBuilder.gt(criteriaBuilder.length(from.get("nombre")), 3L));
+
+        clientes = entityManager.createQuery(query)
+                .getResultList();
+        clientes.forEach(System.out::println);
+
 
 
         entityManager.close();
