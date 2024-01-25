@@ -118,6 +118,57 @@ public class HibernateCriteria {
                 .getResultList();
         clientes.forEach(System.out::println);
 
+        System.out.println("========= consulta con order by asc desc =========");
+
+        query = criteriaBuilder.createQuery(Cliente.class);
+        from = query.from(Cliente.class);
+
+        query.select(from)
+                .orderBy(
+                        criteriaBuilder.asc(from.get("nombre")), criteriaBuilder.desc(from.get("apellido"))
+                );
+        clientes = entityManager.createQuery(query)
+                .getResultList();
+        clientes.forEach(System.out::println);
+
+        System.out.println("========= consulta por id =========");
+        query = criteriaBuilder.createQuery(Cliente.class);
+        from = query.from(Cliente.class);
+        ParameterExpression<Long> idParam = criteriaBuilder.parameter(Long.class, "id");
+
+
+        query.select(from)
+                .where(criteriaBuilder.equal(from.get("id"), idParam));
+
+
+        Cliente cliente = entityManager.createQuery(query)
+                .setParameter("id", 5L)
+                .getSingleResult();
+        System.out.println(cliente);
+
+
+        System.out.println("========= consulta solo el nombre de los clientes =========");
+        CriteriaQuery<String> stringCriteriaQuery = criteriaBuilder.createQuery(String.class);
+        from = stringCriteriaQuery.from(Cliente.class);
+
+        stringCriteriaQuery.select(from.get("nombre"));
+        List<String> nombres = entityManager.createQuery(stringCriteriaQuery)
+                .getResultList();
+
+        nombres.forEach(System.out::println);
+
+        System.out.println("========= consulta solo el nombre unicos de los clientes =========");
+        stringCriteriaQuery = criteriaBuilder.createQuery(String.class);
+        from = stringCriteriaQuery.from(Cliente.class);
+
+        stringCriteriaQuery.select(from.get("nombre"))
+                .distinct(true);
+
+        nombres = entityManager.createQuery(stringCriteriaQuery)
+                .getResultList();
+
+        nombres.forEach(System.out::println);
+
         entityManager.close();
     }
 }
