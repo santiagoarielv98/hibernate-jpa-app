@@ -133,6 +133,17 @@ public class HibernateQL {
 
         clientes.forEach(System.out::println);
 
+        System.out.println("========== consultar por rangos ==========");
+        clientes = entityManager.createQuery("SELECT c FROM Cliente c WHERE c.nombre BETWEEN 'J'AND 'Q' ", Cliente.class)
+                .getResultList();
+        clientes.forEach(System.out::println);
+
+
+        System.out.println("========== consultar con orden ==========");
+        clientes = entityManager.createQuery("SELECT c FROM Cliente c ORDER BY c.nombre ASC, c.apellido ASC", Cliente.class)
+                .getResultList();
+        clientes.forEach(System.out::println);
+
         entityManager.close();
     }
 }
