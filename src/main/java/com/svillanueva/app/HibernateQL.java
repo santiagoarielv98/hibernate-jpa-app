@@ -192,6 +192,24 @@ public class HibernateQL {
 
         System.out.println("count=" + count + ", min=" + min + ", max=" + max + ", avg=" + avg + ", sum=" + sum);
 
+        System.out.println("========== consulta con el nombre mas corto y su largo ==========");
+        registros = entityManager.createQuery("SELECT c.nombre FROM Cliente c WHERE length(c.nombre) = (SELECT min(length(c2.nombre)) FROM Cliente c2)", Object[].class)
+                .getResultList();
+        registros.forEach(reg -> {
+            String n = (String) reg[0];
+            System.out.println("nombre=" + n);
+        });
+
+        System.out.println("========== consulta para obtener el ultimo registro ==========");
+        Cliente ultimoCliente = entityManager.createQuery("SELECT c FROM Cliente c WHERE c.id = (SELECT max(c2.id) FROM Cliente c2)", Cliente.class)
+                .getSingleResult();
+        System.out.println(ultimoCliente);
+
+        System.out.println("========== consulta where in ==========");
+        clientes = entityManager.createQuery("SELECT c FROM Cliente c WHERE c.id IN(1,2,10)", Cliente.class)
+                .getResultList();
+        clientes.forEach(System.out::println);
+
         entityManager.close();
     }
 }
