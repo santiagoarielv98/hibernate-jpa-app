@@ -144,6 +144,54 @@ public class HibernateQL {
                 .getResultList();
         clientes.forEach(System.out::println);
 
+        System.out.println("========== total de registro de la tabla ==========");
+        Long total = entityManager.createQuery("SELECT count(c) as total FROM Cliente c", Long.class)
+                .getSingleResult();
+        System.out.println("Total: " + total);
+
+        System.out.println("========== consulta con valor minimo del id ==========");
+        Long minId = entityManager.createQuery("SELECT min(c.id) as total FROM Cliente c", Long.class)
+                .getSingleResult();
+        System.out.println("Minimo Id: " + minId);
+
+        System.out.println("========== consulta con valor maximo del id ==========");
+        Long maxId = entityManager.createQuery("SELECT max(c.id) as total FROM Cliente c", Long.class)
+                .getSingleResult();
+        System.out.println("Maximo Id: " + maxId);
+
+
+        System.out.println("========== consulta con nombre y su largo ==========");
+        registros = entityManager.createQuery("SELECT c.nombre, length(c.nombre) FROM Cliente c", Object[].class)
+                .getResultList();
+
+        registros.forEach(reg -> {
+            String n = (String) reg[0];
+            Long length = (Long) reg[1];
+            System.out.println("nombre=" + n + ", largo=" + length);
+        });
+
+        System.out.println("========== consulta con valor maximo del nombre ==========");
+        Long nombreMin = entityManager.createQuery("SELECT min(length(c.nombre)) as largo FROM Cliente c", Long.class)
+                .getSingleResult();
+        System.out.println("Minimo nombre: " + nombreMin);
+
+        System.out.println("========== consulta con valor maximo del nombre ==========");
+        Long nombreMax = entityManager.createQuery("SELECT max(length(c.nombre)) as largo FROM Cliente c", Long.class)
+                .getSingleResult();
+        System.out.println("Maximo nombre: " + nombreMax);
+
+        System.out.println("========== consulta funciones agregaciones count min max avg sum ==========");
+        Object[] stats = entityManager.createQuery("SELECT count(c), min(c.id), max(c.id), avg(c.id), sum(c.id) FROM Cliente c", Object[].class)
+                .getSingleResult();
+
+        Long count = (Long) stats[0];
+        Long min = (Long) stats[1];
+        Long max = (Long) stats[2];
+        Double avg = (Double) stats[3];
+        Long sum = (Long) stats[4];
+
+        System.out.println("count=" + count + ", min=" + min + ", max=" + max + ", avg=" + avg + ", sum=" + sum);
+
         entityManager.close();
     }
 }
