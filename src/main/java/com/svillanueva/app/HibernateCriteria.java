@@ -169,6 +169,27 @@ public class HibernateCriteria {
 
         nombres.forEach(System.out::println);
 
+        System.out.println("========= consulta por nombres y apellidos concatenados =========");
+
+        stringCriteriaQuery = criteriaBuilder.createQuery(String.class);
+        from = stringCriteriaQuery.from(Cliente.class);
+
+        stringCriteriaQuery.select(criteriaBuilder.concat(criteriaBuilder.concat(from.get("nombre"), " "), from.get("apellido")));
+        nombres = entityManager.createQuery(stringCriteriaQuery)
+                .getResultList();
+        nombres.forEach(System.out::println);
+
+        System.out.println("========= consulta por nombres y apellidos concatenados upper =========");
+
+        stringCriteriaQuery = criteriaBuilder.createQuery(String.class);
+        from = stringCriteriaQuery.from(Cliente.class);
+
+        stringCriteriaQuery.select(criteriaBuilder.upper(criteriaBuilder.concat(criteriaBuilder.concat(from.get("nombre"), " "), from.get("apellido"))));
+        nombres = entityManager.createQuery(stringCriteriaQuery)
+                .getResultList();
+        nombres.forEach(System.out::println);
+
+
         entityManager.close();
     }
 }
