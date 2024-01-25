@@ -189,6 +189,66 @@ public class HibernateCriteria {
                 .getResultList();
         nombres.forEach(System.out::println);
 
+        System.out.println("========= consulta de campos personalizado del entity cliente =========");
+
+
+        CriteriaQuery<Object[]> queryObject = criteriaBuilder.createQuery(Object[].class);
+
+        from = queryObject.from(Cliente.class);
+
+        queryObject.multiselect(from.get("id"), from.get("nombre"), from.get("apellido"));
+
+        List<Object[]> registros = entityManager.createQuery(queryObject)
+                .getResultList();
+
+        registros.forEach(reg -> {
+            Long id = (Long) reg[0];
+            String nombre = (String) reg[1];
+            String apellido = (String) reg[2];
+
+            System.out.println(id + " - " + nombre + " - " + apellido);
+        });
+
+        System.out.println("========= consulta de campos personalizado del entity cliente con where =========");
+
+
+        queryObject = criteriaBuilder.createQuery(Object[].class);
+
+        from = queryObject.from(Cliente.class);
+
+        queryObject.multiselect(from.get("id"), from.get("nombre"), from.get("apellido"))
+                .where(criteriaBuilder.like(from.get("nombre"), "%lu%"));
+
+        registros = entityManager.createQuery(queryObject)
+                .getResultList();
+
+        registros.forEach(reg -> {
+            Long id = (Long) reg[0];
+            String nombre = (String) reg[1];
+            String apellido = (String) reg[2];
+
+            System.out.println(id + "- " + nombre + "- " + apellido);
+        });
+
+        System.out.println("========= consulta de campos personalizado del entity cliente con where =========");
+
+
+        queryObject = criteriaBuilder.createQuery(Object[].class);
+
+        from = queryObject.from(Cliente.class);
+
+        queryObject.multiselect(from.get("id"), from.get("nombre"), from.get("apellido"))
+                .where(criteriaBuilder.equal(from.get("id"), 2L));
+
+        Object[] registro = entityManager.createQuery(queryObject)
+                .getSingleResult();
+
+        Long id = (Long) registro[0];
+        String nombre = (String) registro[1];
+        String apellido = (String) registro[2];
+
+        System.out.println(id + " - " + nombre + " - " + apellido);
+
 
         entityManager.close();
     }
