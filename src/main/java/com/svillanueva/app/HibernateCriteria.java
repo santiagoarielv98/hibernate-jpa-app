@@ -232,7 +232,6 @@ public class HibernateCriteria {
 
         System.out.println("========= consulta de campos personalizado del entity cliente con where =========");
 
-
         queryObject = criteriaBuilder.createQuery(Object[].class);
 
         from = queryObject.from(Cliente.class);
@@ -249,6 +248,70 @@ public class HibernateCriteria {
 
         System.out.println(id + " - " + nombre + " - " + apellido);
 
+        System.out.println("========= contar registros de la consulta con count =========");
+
+        CriteriaQuery<Long> queryLong = criteriaBuilder.createQuery(Long.class);
+        from = queryLong.from(Cliente.class);
+
+        queryLong.select(criteriaBuilder.count(from.get("id")));
+        Long count = entityManager.createQuery(queryLong)
+                .getSingleResult();
+        System.out.println(count);
+
+        System.out.println("========= sumar datos de algún campo de la tabla =========");
+
+        queryLong = criteriaBuilder.createQuery(Long.class);
+        from = queryLong.from(Cliente.class);
+
+        queryLong.select(criteriaBuilder.sum(from.get("id")));
+        Long sum = entityManager.createQuery(queryLong)
+                .getSingleResult();
+        System.out.println(sum);
+
+        System.out.println("========= consulta con el maximo id =========");
+
+        queryLong = criteriaBuilder.createQuery(Long.class);
+        from = queryLong.from(Cliente.class);
+
+        queryLong.select(criteriaBuilder.max(from.get("id")));
+        Long maxId = entityManager.createQuery(queryLong)
+                .getSingleResult();
+        System.out.println(maxId);
+
+        System.out.println("========= consulta con el minimo id =========");
+
+        queryLong = criteriaBuilder.createQuery(Long.class);
+        from = queryLong.from(Cliente.class);
+
+        queryLong.select(criteriaBuilder.min(from.get("id")));
+        Long minId = entityManager.createQuery(queryLong)
+                .getSingleResult();
+        System.out.println(minId);
+
+        System.out.println("========= ejemplo varios resultados de funciones de agregacion en una sola consulta =========");
+
+        queryObject = criteriaBuilder.createQuery(Object[].class);
+        from = query.from(Cliente.class);
+
+        queryObject.multiselect(
+                criteriaBuilder.count(from.get("id")),
+                criteriaBuilder.sum(from.get("id")),
+                criteriaBuilder.max(from.get("id")),
+                criteriaBuilder.min(from.get("id"))
+        );
+
+        registro = entityManager.createQuery(queryObject)
+                .getSingleResult();
+
+        Long countIds = (Long) registro[0];
+        Long sumIds = (Long) registro[1];
+        maxId = (Long) registro[2];
+        minId = (Long) registro[3];
+
+        System.out.println("count: " + countIds);
+        System.out.println("sum: " + sumIds);
+        System.out.println("max: " + maxId);
+        System.out.println("min: " + minId);
 
         entityManager.close();
     }
