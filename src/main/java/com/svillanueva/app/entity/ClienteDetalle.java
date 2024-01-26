@@ -12,11 +12,11 @@ public class ClienteDetalle {
 
     private boolean prime;
 
-    @Column(name = "putos_acumulados")
+    @Column(name = "puntos_acumulados")
     private Long puntosAcumulados;
 
     @OneToOne
-    @JoinColumn("cliente_detalle_id")
+    @JoinColumn(name = "cliente_detalle_id")
     private Cliente cliente;
 
     public ClienteDetalle() {

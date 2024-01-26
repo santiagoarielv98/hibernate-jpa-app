@@ -6,6 +6,8 @@
         <class>com.svillanueva.app.entity.Factura</class>
         <class>com.svillanueva.app.entity.Direccion</class>
         <class>com.svillanueva.app.entity.ClienteDetalle</class>
+        <class>com.svillanueva.app.entity.Curso</class>
+        <class>com.svillanueva.app.entity.Alumno</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
