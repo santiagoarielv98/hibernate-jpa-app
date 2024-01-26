@@ -29,8 +29,7 @@ public class Cliente {
     @Embedded
     private final Auditoria auditoria = new Auditoria();
 
-    @OneToOne
-    @JoinColumn("detalles")
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "cliente")
     private ClienteDetalle detalles;
 
     public Cliente() {
@@ -122,6 +121,16 @@ public class Cliente {
 
     public void setDetalle(ClienteDetalle detalle) {
         this.detalles = detalle;
+    }
+
+    public void addDetalle(ClienteDetalle detalle) {
+        this.detalles = detalle;
+        detalle.setCliente(this);
+    }
+
+    public void removeDetalle(ClienteDetalle detalle) {
+        detalle.setCliente(null);
+        this.detalles = null;
     }
 
     @Override
