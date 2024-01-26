@@ -31,7 +31,7 @@ public class HibernateCriteria {
                 .where(criteriaBuilder.equal(from.get("nombre"), nombreParams));
 
         clientes = entityManager.createQuery(query)
-//                .setParameter("nombre", "Santiago")
+                .setParameter("nombre", "Santiago")
                 .getResultList();
         clientes.forEach(System.out::println);
 
@@ -291,7 +291,7 @@ public class HibernateCriteria {
         System.out.println("========= ejemplo varios resultados de funciones de agregacion en una sola consulta =========");
 
         queryObject = criteriaBuilder.createQuery(Object[].class);
-        from = query.from(Cliente.class);
+        from = queryObject.from(Cliente.class);
 
         queryObject.multiselect(
                 criteriaBuilder.count(from.get("id")),
@@ -314,8 +314,6 @@ public class HibernateCriteria {
         System.out.println("min: " + minId);
 
         entityManager.close();
-
-        System.out.println("========= búsqueda dinámica =========");
 
     }
 }

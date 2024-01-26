@@ -3,6 +3,8 @@ package com.svillanueva.app.entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "clientes")
 public class Cliente {
@@ -69,12 +71,15 @@ public class Cliente {
 
     @Override
     public String toString() {
+        LocalDateTime creado = this.auditoria == null ? null : this.auditoria.getCreadoEn();
+        LocalDateTime actualizado = this.auditoria == null ? null : this.auditoria.getActualizadoEn();
+
         return "id=" + id +
                 ", nombre='" + nombre + '\'' +
                 ", apellido='" + apellido + '\'' +
                 ", formaPago='" + formaPago + '\'' +
-                ", creadoEn=" + auditoria.getCreadoEn() +
-                ", actualizadoEn=" + auditoria.getActualizadoEn() +
+                ", creadoEn=" + creado +
+                ", actualizadoEn=" + actualizado +
                 '}';
     }
 }
