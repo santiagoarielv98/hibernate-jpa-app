@@ -107,6 +107,11 @@ public class Cliente {
         factura.setCliente(this);
     }
 
+    public void removeFactura(Factura factura) {
+        facturas.remove(factura);
+        factura.setCliente(null);
+    }
+
     @Override
     public String toString() {
         return "id=" + id +
