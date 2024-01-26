@@ -13,7 +13,7 @@ public class Factura {
     private String descripcion;
     private Long total;
     @ManyToOne
-//    @JoinColumn(name = "id_cliente")
+    @JoinColumn(name = "id_cliente")
     private Cliente cliente;
 
     public Factura() {
@@ -62,7 +62,6 @@ public class Factura {
                 "id=" + id +
                 ", descripcion='" + descripcion + '\'' +
                 ", total=" + total +
-                ", cliente=" + cliente +
                 '}';
     }
 }
