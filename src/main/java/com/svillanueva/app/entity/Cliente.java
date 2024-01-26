@@ -29,6 +29,10 @@ public class Cliente {
     @Embedded
     private final Auditoria auditoria = new Auditoria();
 
+    @OneToOne
+    @JoinColumn("detalles")
+    private ClienteDetalle detalles;
+
     public Cliente() {
         facturas = new ArrayList<>();
         direcciones = new ArrayList<>();
@@ -112,6 +116,14 @@ public class Cliente {
         factura.setCliente(null);
     }
 
+    public ClienteDetalle getDetalle() {
+        return detalles;
+    }
+
+    public void setDetalle(ClienteDetalle detalle) {
+        this.detalles = detalle;
+    }
+
     @Override
     public String toString() {
         return "id=" + id +
@@ -122,6 +134,7 @@ public class Cliente {
                 ", actualizadoEn=" + this.auditoria.getActualizadoEn() +
                 ", factura=" + this.facturas +
                 ", direcciones=" + this.direcciones +
+                ", detalles=" + this.detalles +
                 '}';
     }
 }
