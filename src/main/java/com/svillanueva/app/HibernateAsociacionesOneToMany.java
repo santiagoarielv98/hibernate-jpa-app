@@ -27,6 +27,20 @@ public class HibernateAsociacionesOneToMany {
             cliente.setDirecciones(direcciones);
 
             em.persist(cliente);
+            System.out.println(cliente);
+
+            em.getTransaction()
+                    .commit();
+
+            System.out.println(cliente);
+
+            em.getTransaction()
+                    .begin();
+
+            cliente = em.find(Cliente.class, cliente.getId());
+
+            cliente.getDirecciones()
+                    .remove(1);
 
             System.out.println(cliente);
 

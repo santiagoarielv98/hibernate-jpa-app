@@ -24,6 +24,12 @@ public class HibernateAsociacionesManyToOneFind {
 
             em.getTransaction()
                     .commit();
+
+            em.getTransaction()
+                    .begin();
+
+            em.getTransaction()
+                    .commit();
         } catch (Exception e) {
             em.getTransaction()
                     .rollback();
