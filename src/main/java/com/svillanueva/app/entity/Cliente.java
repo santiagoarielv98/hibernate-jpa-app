@@ -17,7 +17,8 @@ public class Cliente {
     private String apellido;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "cliente_id")
+//    @JoinColumn(name = "cliente_id")
+    @JoinTable(name = "tbl_clientes_direcciones", joinColumns = @JoinColumn(name = "id_cliente"), inverseJoinColumns = @JoinColumn(name = "id_direccion"),uniqueConstraints = @UniqueConstraint(columnNames = {"id_direccion"}))
     private List<Direccion> direcciones;
 
     @Column(name = "forma_pago")
