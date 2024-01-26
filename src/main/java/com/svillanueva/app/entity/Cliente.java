@@ -3,8 +3,6 @@ package com.svillanueva.app.entity;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Table(name = "clientes")
 public class Cliente {
@@ -17,12 +15,8 @@ public class Cliente {
 
     @Column(name = "forma_pago")
     private String formaPago;
-
-    @Column(name = "creado_en")
-    private LocalDateTime creadoEn;
-
-    @Column(name = "actualizado_en")
-    private LocalDateTime actualizadoEn;
+    @Embedded
+    private final Auditoria auditoria = new Auditoria();
 
     public Cliente() {
     }
@@ -37,23 +31,6 @@ public class Cliente {
         this.nombre = nombre;
         this.apellido = apellido;
         this.formaPago = formaPago;
-    }
-
-    @PrePersist
-    public void prePersist() {
-        System.out.println("Antes de persistir");
-        this.creadoEn = LocalDateTime.now();
-    }
-
-    @PostPersist
-    public void postPersist() {
-        System.out.println("Después de persistir");
-    }
-
-    @PreUpdate
-    public void preUpdate() {
-        System.out.println("Antes de actualizar");
-        this.actualizadoEn = LocalDateTime.now();
     }
 
 
@@ -89,21 +66,6 @@ public class Cliente {
         this.formaPago = formaPago;
     }
 
-    public LocalDateTime getCreadoEn() {
-        return creadoEn;
-    }
-
-    public void setCreadoEn(LocalDateTime creadoEn) {
-        this.creadoEn = creadoEn;
-    }
-
-    public LocalDateTime getActualizadoEn() {
-        return actualizadoEn;
-    }
-
-    public void setActualizadoEn(LocalDateTime actualizadoEn) {
-        this.actualizadoEn = actualizadoEn;
-    }
 
     @Override
     public String toString() {
@@ -111,8 +73,8 @@ public class Cliente {
                 ", nombre='" + nombre + '\'' +
                 ", apellido='" + apellido + '\'' +
                 ", formaPago='" + formaPago + '\'' +
-                ", creadoEn=" + creadoEn +
-                ", actualizadoEn=" + actualizadoEn +
+                ", creadoEn=" + auditoria.getCreadoEn() +
+                ", actualizadoEn=" + auditoria.getActualizadoEn() +
                 '}';
     }
 }
