@@ -314,5 +314,8 @@ public class HibernateCriteria {
         System.out.println("min: " + minId);
 
         entityManager.close();
+
+        System.out.println("========= búsqueda dinámica =========");
+
     }
 }
