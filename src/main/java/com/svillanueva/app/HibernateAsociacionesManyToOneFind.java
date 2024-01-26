@@ -15,7 +15,7 @@ public class HibernateAsociacionesManyToOneFind {
 
             Cliente cliente = em.find(Cliente.class, 1L);
 
-            Factura factura = new Factura("Factura 1", 1000L);
+            Factura factura = new Factura("Factura ejemplo", 1000L);
 
             factura.setCliente(cliente);
             em.persist(factura);
